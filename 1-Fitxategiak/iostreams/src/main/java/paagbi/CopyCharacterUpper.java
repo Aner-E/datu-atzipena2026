@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class CopyCharacterOrdezkatu {
+public class CopyCharacterUpper {
     public static void main(String[] args) throws IOException {
 
         FileInputStream in = null;
@@ -19,9 +19,7 @@ public class CopyCharacterOrdezkatu {
 
             while ((caracter = in.read()) != -1) {
 
-                if (caracter == 'a') {
-                    caracter = 'o';
-                }
+                caracter = Character.toUpperCase((char) caracter);
 
                 out.write(caracter);
             }
