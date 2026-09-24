@@ -10,157 +10,241 @@ import java.util.Scanner;
 
 public class PobrezaOpenData {
 
-    public static void main(String[] args) {
-
-        String fitxategia =
-                "https://www.ine.es/jaxiT3/files/t/csv_bdsc/11182.csv";
-
         ArrayList<String[]> Datuak = new ArrayList<>();
-
-        BufferedReader irakurlea = null;
         Scanner sc = new Scanner(System.in);
 
-        try {
+        /*
+         * Erabiltzaileari menu nagusia erakusten dio eta
+         * aukeratutako aukera exekutatzen du.
+         */
+        public void menu() {
 
-            URI uri = URI.create(fitxategia);
-            URL url = uri.toURL();
+                int aukera = 0;
 
-            irakurlea = new BufferedReader(
-                    new InputStreamReader(url.openStream()));
+                while (aukera != 5) {
 
-            irakurlea.readLine();
+                        System.out.println();
+                        System.out.println("===== Pobrezia Arriskua Europan =====");
+                        System.out.println("1. Datu guztiak ikusi");
+                        System.out.println("2. Gizonen datuak ikusi");
+                        System.out.println("3. Emakumeen datuak ikusi");
+                        System.out.println("4. Herrialdeaz bilatu");
+                        System.out.println("5. Irten");
+                        System.out.print("Aukera bat sartu: ");
 
-            String lerroa;
+                        aukera = sc.nextInt();
+                        sc.nextLine();
 
-            while ((lerroa = irakurlea.readLine()) != null) {
+                        switch (aukera) {
 
-                String[] datuak = lerroa.split(";");
+                                case 1:
+                                        datu_guztiak();
+                                        break;
 
-                if (datuak.length >= 4) {
-                    Datuak.add(datuak);
+                                case 2:
+                                        gizon_datuak();
+                                        break;
+
+                                case 3:
+                                        emakume_datuak();
+                                        break;
+
+                                case 4:
+                                        herrialde_datuak();
+                                        break;
+
+                                case 5:
+                                        System.out.println("Programa itxita.");
+                                        break;
+
+                                default:
+                                        System.out.println(
+                                                        "Ez da aukera hori onartzen.");
+                        }
                 }
-            }
+        }
 
-            int aukera = 0;
-
-            while (aukera != 5) {
+        /*
+         * Datu guztiak erakusten ditu, filtrorik egin gabe.
+         */
+        public void datu_guztiak() {
 
                 System.out.println();
-                System.out.println("===== MENU =====");
-                System.out.println("1. Datu gustiak ikusi");
-                System.out.println("2. Gizonen datuak ikusi");
-                System.out.println("3. Emakumeen datuak ikusi");
-                System.out.println("4. Herrialdeaz bilatu");
-                System.out.println("5. Irten");
-                System.out.print("Aukera bat sartu: ");
+                System.out.println("==============================================================");
+                System.out.println("                     DATU GUZTIAK");
+                System.out.println("==============================================================");
+                System.out.printf("%-30s %-12s %-10s %-10s%n",
+                                "Herrialdea", "Sexua", "Urtea", "Guztira");
+                System.out.println("--------------------------------------------------------------");
 
-                aukera = sc.nextInt();
-                sc.nextLine();
+                for (String[] dato : Datuak) {
 
-                switch (aukera) {
+                        System.out.printf("%-30s %-12s %-10s %-10s%n",
+                                        dato[0], dato[1], dato[2], dato[3]);
+                }
 
-                    case 1:
+                System.out.println("==============================================================");
+        }
 
-                        System.out.println();
-                        System.out.println("===== Datu Gustiak =====");
+        /*
+         * Gizonen datuak bakarrik erakusten ditu.
+         */
+        /*
+         * Gizonen datuak bakarrik erakusten ditu.
+         */
+        public void gizon_datuak() {
 
-                        for (String[] dato : Datuak) {
+                System.out.println();
+                System.out.println("==============================================================");
+                System.out.println("                     GIZONEN DATUAK");
+                System.out.println("==============================================================");
+                System.out.printf("%-30s %-10s %-10s%n",
+                                "Herrialdea", "Urtea", "Guztira");
+                System.out.println("--------------------------------------------------------------");
 
-                            System.out.println(dato[0] + " | " + dato[1] + " | " + dato[2] + " | " + dato[3]);
+                for (String[] dato : Datuak) {
+
+                        if (dato[1].equals("Hombres")) {
+
+                                System.out.printf("%-30s %-10s %-10s%n",
+                                                dato[0], dato[2], dato[3]);
                         }
+                }
 
-                        break;
+                System.out.println("==============================================================");
+        }
 
-                    case 2:
+        /*
+         * Emakumeen datuak bakarrik erakusten ditu.
+         */
+        public void emakume_datuak() {
 
-                        System.out.println();
-                        System.out.println("===== Gizonen Datuak =====");
+                System.out.println();
+                System.out.println("==============================================================");
+                System.out.println("                   EMAKUMEEN DATUAK");
+                System.out.println("==============================================================");
+                System.out.printf("%-30s %-10s %-10s%n",
+                                "Herrialdea", "Urtea", "Guztira");
+                System.out.println("--------------------------------------------------------------");
 
-                        for (String[] dato : Datuak) {
+                for (String[] dato : Datuak) {
 
-                            if (dato[1].equals("Hombres")) {
+                        if (dato[1].equals("Mujeres")) {
 
-                                System.out.println(dato[0] + " | " + dato[2] + " | " + dato[3]);
-                            }
+                                System.out.printf("%-30s %-10s %-10s%n",
+                                                dato[0], dato[2], dato[3]);
                         }
+                }
 
-                        break;
+                System.out.println("==============================================================");
+        }
 
-                    case 3:
 
-                        System.out.println();
-                        System.out.println("===== Emakumeen Datuak =====");
+        /*
+         * Sartutako herrialdea bilatzen du eta bere datuak erakusten ditu.
+         */
+        public void herrialde_datuak() {
 
-                        for (String[] dato : Datuak) {
-
-                            if (dato[1].equals("Mujeres")) {
-
-                                System.out.println(dato[0] + " | " + dato[2] + " | " + dato[3]);
-                            }
-                        }
-
-                        break;
-
-                    case 4:
-
-                        System.out.print(
+                System.out.print(
                                 "Bilatu nahi duzun herrialdearen izena sartu: ");
 
-                        String pais = sc.nextLine();
+                String pais = sc.nextLine();
 
-                        boolean encontrado = false;
+                boolean encontrado = false;
 
-                        System.out.println();
-                        System.out.println("===== RESULTADOS PARA " + pais + " =====");
+                System.out.println();
+                System.out.println("==============================================================");
+                System.out.println("                     " + pais.toUpperCase());
+                System.out.println("==============================================================");
+                System.out.printf("%-30s %-12s %-10s %-10s%n",
+                                "Herrialdea", "Sexua", "Urtea", "Guztira");
+                System.out.println("--------------------------------------------------------------");
 
-                        for (String[] dato : Datuak) {
+                for (String[] dato : Datuak) {
 
-                            if (dato[0].equalsIgnoreCase(pais)) {
+                        if (dato[0].equalsIgnoreCase(pais)) {
 
-                                System.out.println(dato[0] + " | " + dato[1] + " | " + dato[2] + " | " + dato[3]);
+                                System.out.printf("%-30s %-12s %-10s %-10s%n",
+                                                dato[0], dato[1], dato[2], dato[3]);
 
                                 encontrado = true;
-                            }
                         }
-
-                        if (!encontrado) {
-
-                            System.out.println("Ez da herrialdea aurkitu.");
-                        }
-
-                        break;
-
-                    case 5:
-
-                        System.out.println("Programa itxita.");
-
-                        break;
-
-                    default:
-
-                        System.out.println("Ez da aukera hori onartzen.");
-                }
-            }
-
-        } catch (IOException e) {
-
-            System.out.println("Errorea fitxategia irakurtzean: " + e.getMessage());
-
-        } finally {
-
-            try {
-
-                if (irakurlea != null) {
-                    irakurlea.close();
                 }
 
-            } catch (IOException e) {
+                if (!encontrado) {
 
-                System.out.println(
-                        "Errorea fitxategia ixtean.");
-            }
+                        System.out.println();
+                        System.out.println("Ez da herrialdea aurkitu.");
+                }
 
-            sc.close();
+                System.out.println("==============================================================");
         }
-    }
+
+        /*
+         * CSV fitxategiko datuak Internetetik irakurri
+         * eta programaren menua abiarazten du.
+         */
+        public static void main(String[] args) {
+
+                String fitxategia = "https://raw.githubusercontent.com/Aner-E/datu-atzipena2026/main/pobreza.csv";
+
+                PobrezaOpenData programa = new PobrezaOpenData();
+
+                BufferedReader irakurlea = null;
+
+                try {
+
+                        URI uri = URI.create(fitxategia);
+                        URL url = uri.toURL();
+
+                        irakurlea = new BufferedReader(
+                                        new InputStreamReader(url.openStream()));
+
+                        // Cabecera
+                        irakurlea.readLine();
+
+                        String lerroa;
+
+                        while ((lerroa = irakurlea.readLine()) != null) {
+
+                                String[] datuak = lerroa.split(";");
+
+                                if (datuak.length >= 4) {
+
+                                        programa.Datuak.add(datuak);
+                                }
+                        }
+
+                        programa.menu();
+
+                } catch (IOException e) {
+
+                        System.out.println(
+                                        "Errorea fitxategia irakurtzean: "
+                                                        + e.getMessage());
+
+                } finally {
+
+                        try {
+
+                                if (irakurlea != null) {
+                                        irakurlea.close();
+                                }
+
+                        } catch (IOException e) {
+
+                                System.out.println(
+                                                "Errorea fitxategia ixtean.");
+                        }
+
+                        programa.sc.close();
+                }
+        }
 }
+
+
+
+
+
+
+
