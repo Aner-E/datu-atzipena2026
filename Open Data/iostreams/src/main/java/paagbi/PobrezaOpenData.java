@@ -1,32 +1,27 @@
 package paagbi;
 
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 
 public class PobrezaOpenData {
 
     public static void main(String[] args) {
 
-        String fitxategia = "pobreza.csv";
+        String fitxategia =
+                "https://www.ine.es/jaxiT3/files/t/csv_bdsc/11182.csv";
 
-        double gizonenBatura = 0;
-        double emakumeenBatura = 0;
-        int herrialdeKopurua = 0;
-
-        String herrialdeGehiena = "";
-        double ehunekoGehiena = 0;
-
-        FileInputStream fis = null;
         BufferedReader irakurlea = null;
 
         try {
 
-            fis = new FileInputStream(fitxategia);
+            URI uri = URI.create(fitxategia);
+            URL url = uri.toURL(); 
 
             irakurlea = new BufferedReader(
-                    new InputStreamReader(fis));
+                    new InputStreamReader(url.openStream()));
 
             irakurlea.readLine();
 
@@ -34,55 +29,20 @@ public class PobrezaOpenData {
 
             while ((lerroa = irakurlea.readLine()) != null) {
 
-                String[] datuak = lerroa.split(",");
+                String[] datuak = lerroa.split(";");
 
-                String herrialdea = datuak[2];
+                String herrialdea = datuak[0];
+                String sexua = datuak[1];
+                String urtea = datuak[2];
+                String total = datuak[3];
 
-                double gizonak =
-                        Double.parseDouble(datuak[3]);
+                System.out.println(
+                        herrialdea + " | " + sexua + " | " + urtea + " | " + total);
 
-                double emakumeak =
-                        Double.parseDouble(datuak[4]);
-
-                gizonenBatura += gizonak;
-                emakumeenBatura += emakumeak;
-
-                herrialdeKopurua++;
-
-                double batezBestekoa =
-                        (gizonak + emakumeak) / 2;
-
-                if (batezBestekoa > ehunekoGehiena) {
-                    ehunekoGehiena = batezBestekoa;
-                    herrialdeGehiena = herrialdea;
+                if (total.equals("\"\"") || total.equals("..")) {
+                    continue;
                 }
             }
-
-            double gizonenBatezBestekoa =
-                    gizonenBatura / herrialdeKopurua;
-
-            double emakumeenBatezBestekoa =
-                    emakumeenBatura / herrialdeKopurua;
-
-            System.out.println("===== POBREZIA DATUAK =====");
-            System.out.println("Herrialde kopurua: "
-                    + herrialdeKopurua);
-
-            System.out.printf(
-                    "Gizonen batez bestekoa: %.2f%%%n",
-                    gizonenBatezBestekoa);
-
-            System.out.printf(
-                    "Emakumeen batez bestekoa: %.2f%%%n",
-                    emakumeenBatezBestekoa);
-
-            System.out.println(
-                    "Ehunekorik handiena duen herrialdea:");
-
-            System.out.printf(
-                    "%s (%.2f%%)%n",
-                    herrialdeGehiena,
-                    ehunekoGehiena);
 
         } catch (IOException e) {
 
@@ -96,10 +56,6 @@ public class PobrezaOpenData {
 
                 if (irakurlea != null) {
                     irakurlea.close();
-                }
-
-                if (fis != null) {
-                    fis.close();
                 }
 
             } catch (IOException e) {
