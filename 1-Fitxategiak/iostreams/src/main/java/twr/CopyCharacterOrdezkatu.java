@@ -1,4 +1,4 @@
-package paagbi;
+package twr;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,12 +8,8 @@ import java.io.IOException;
 public class CopyCharacterOrdezkatu {
     public static void main(String[] args) throws IOException {
 
-        FileInputStream in = null;
-        FileOutputStream out = null;
-
-        try {
-            in = new FileInputStream("xanadu.txt");
-            out = new FileOutputStream("outagain.txt");
+        try (FileInputStream in = new FileInputStream("xanadu.txt");
+                FileOutputStream out = new FileOutputStream("outagain.txt")) {
 
             int caracter;
 
@@ -28,18 +24,8 @@ public class CopyCharacterOrdezkatu {
 
         } catch (FileNotFoundException e) {
             System.out.println(
-                "Errorea: kopiatu beharreko fitxategia ez da aurkitu."
-            );
+                    "Errorea: kopiatu beharreko fitxategia ez da aurkitu.");
 
-        } finally {
-            if (in != null) {
-                in.close();
-            }
-
-            if (out != null) {
-                out.close();
-            }
         }
     }
 }
-

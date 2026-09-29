@@ -14,7 +14,7 @@ public class FitxategiakGestionatu {
     public static void main(String[] args) {
         int aukera;
         do {
-            System.out.println("\n===== MENUA =====");
+            System.out.println("\n===== Fitxategien Kudeaketa =====");
             System.out.println("1. Egiaztatu fitxategia/direktorioa");
             System.out.println("2. Karpeta baten edukia bistaratu (Lehen maila)");
             System.out.println("3. Karpeta egitura sortu");
@@ -22,7 +22,7 @@ public class FitxategiakGestionatu {
             System.out.println("0. Irten");
             System.out.print("Aukeratu: ");
             aukera = sc.nextInt();
-            sc.nextLine(); // Garbitu introa
+            sc.nextLine(); 
 
             switch (aukera) {
                 case 1:
@@ -46,12 +46,13 @@ public class FitxategiakGestionatu {
         } while (aukera != 0);
     }
 
-    // Files.exists erabiliz existitzen den egiaztatu 
+    /**Files.exists erabiliz path hori sortuta dagola egiaztatu */ 
     public static void egiaztatuPath() {
         System.out.print("Sartu path absolutua: ");
         Path path = Path.of(sc.nextLine());
 
-        if (Files.exists(path)) {
+        if (Files.exists(path)) { 
+            // ze artxibo mota den ikusi eta erakutsi
             if (Files.isDirectory(path)) {
                 System.out.println("Existitzen da eta DIREKTORIOA da.");
             } else {
@@ -62,7 +63,7 @@ public class FitxategiakGestionatu {
         }
     }
 
-    // DirectoryStream erabiliz edukia erakutsi
+    /**  DirectoryStream erabiliz edukia erakutsi */
     public static void erakutsiEdukia() {
         System.out.print("Sartu karpetaren izena: ");
         Path path = Path.of(sc.nextLine());
@@ -82,21 +83,23 @@ public class FitxategiakGestionatu {
         }
     }
 
-    // Hainbat direktorio batera sortu
+    /** Hainbat direktorio batera sortu */
     public static void sortuEgitura() {
+        
         try {
+            Files.deleteIfExists(Path.of("karpeta"));
             // Files.createDirectories-ek beharrezko bide osoa sortzen du 
-            Files.createDirectories(Path.of("karpeta_berriak/animaliak/arrainak"));
-            Files.createDirectories(Path.of("karpeta_berriak/animaliak/ugaztunak"));
-            Files.createDirectories(Path.of("karpeta_berriak/elikagaiak/barazkiak"));
-            Files.createDirectories(Path.of("karpeta_berriak/elikagaiak/esnekiak"));
+            Files.createDirectories(Path.of("karpeta/animaliak/arrainak"));
+            Files.createDirectories(Path.of("karpeta/animaliak/ugaztunak"));
+            Files.createDirectories(Path.of("karpeta/elikagaiak/barazkiak"));
+            Files.createDirectories(Path.of("karpeta/elikagaiak/esnekiak"));
             System.out.println("Egitura sortu da!");
         } catch (IOException e) {
             System.out.println("Errorea karpetak sortzean.");
         }
     }
 
-    //  Fitxategia sortu lehenik karpeta bilatuz 
+    /**  Fitxategia sortu lehenik karpeta bilatuz */
     public static void sortuFitxategia() {
         System.out.print("Zer zoaz deskribatzera? (adib: ugaztunak): ");
         String kategoria = sc.nextLine();
@@ -108,9 +111,9 @@ public class FitxategiakGestionatu {
         // if bat erabiltzen dugu kategoria ikusteko eta beran karpetan gordetzeko
         Path kategoriaPath = null;
         if (kategoria.equals("ugaztunak") || kategoria.equals("arrainak")) {
-            kategoriaPath = Path.of("karpeta_berriak/animaliak", kategoria);
+            kategoriaPath = Path.of("karpeta/animaliak", kategoria);
         } else if (kategoria.equals("barazkiak") || kategoria.equals("esnekiak")) {
-            kategoriaPath = Path.of("karpeta_berriak/elikagaiak", kategoria);
+            kategoriaPath = Path.of("karpeta/elikagaiak", kategoria);
         }
 
         if (kategoriaPath != null && Files.exists(kategoriaPath)) {

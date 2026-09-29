@@ -186,7 +186,7 @@ public class PobrezaOpenData {
          */
         public static void main(String[] args) {
 
-                String fitxategia = "https://raw.githubusercontent.com/Aner-E/datu-atzipena2026/main/pobreza.csv";
+                String fitxategia = "https://raw.githubusercontent.com/Aner-E/datu-atzipena2026/refs/heads/main/Open%20Data/pobreza.csv";
 
                 PobrezaOpenData programa = new PobrezaOpenData();
 
