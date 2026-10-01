@@ -148,30 +148,30 @@ public class PobrezaOpenData {
                 System.out.print(
                                 "Bilatu nahi duzun herrialdearen izena sartu: ");
 
-                String pais = sc.nextLine();
+                String herri = sc.nextLine();
 
-                boolean encontrado = false;
+                boolean find = false;
 
                 System.out.println();
                 System.out.println("==============================================================");
-                System.out.println("                     " + pais.toUpperCase());
+                System.out.println("                     " + herri.toUpperCase());
                 System.out.println("==============================================================");
                 System.out.printf("%-30s %-12s %-10s %-10s%n",
                                 "Herrialdea", "Sexua", "Urtea", "Guztira");
                 System.out.println("--------------------------------------------------------------");
 
-                for (String[] dato : Datuak) {
+                for (String[] datu : Datuak) {
 
-                        if (dato[0].equalsIgnoreCase(pais)) {
+                        if (datu[0].equalsIgnoreCase(herri)) {
 
                                 System.out.printf("%-30s %-12s %-10s %-10s%n",
-                                                dato[0], dato[1], dato[2], dato[3]);
+                                                datu[0], datu[1], datu[2], datu[3]);
 
-                                encontrado = true;
+                                find = true;
                         }
                 }
 
-                if (!encontrado) {
+                if (!find) {
 
                         System.out.println();
                         System.out.println("Ez da herrialdea aurkitu.");
@@ -197,8 +197,7 @@ public class PobrezaOpenData {
                         URI uri = URI.create(fitxategia);
                         URL url = uri.toURL();
 
-                        irakurlea = new BufferedReader(
-                                        new InputStreamReader(url.openStream()));
+                        irakurlea = new BufferedReader(new InputStreamReader(url.openStream()));
 
                         // Cabecera
                         irakurlea.readLine();
@@ -219,9 +218,7 @@ public class PobrezaOpenData {
 
                 } catch (IOException e) {
 
-                        System.out.println(
-                                        "Errorea fitxategia irakurtzean: "
-                                                        + e.getMessage());
+                        System.out.println("Errorea fitxategia irakurtzean: " + e.getMessage());
 
                 } finally {
 
@@ -233,8 +230,7 @@ public class PobrezaOpenData {
 
                         } catch (IOException e) {
 
-                                System.out.println(
-                                                "Errorea fitxategia ixtean.");
+                                System.out.println("Errorea fitxategia ixtean.");
                         }
 
                         programa.sc.close();
